@@ -1,46 +1,55 @@
-// Register.jsx
-import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, CardBody, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Header from './Header';
 import './style.css';
 
 function Register() {
+
+    const [username,setUsername] = useState('');
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const navigate = useNavigate();
+
+    async function signup() {
+        let Item = {username,email,password};
+        console.warn(Item);
+
+        let result = await fetch('http://localhost:8000/api/register',{
+            method:'POST',
+            body:JSON.stringify(Item),
+            headers:{
+                "Content-Type":"application/json",
+                "Accept":"application/json"
+            }
+        });
+
+        result = await result.json();
+        console.warn("result",result);
+        localStorage.setItem("user-info",JSON.stringify(result));
+
+        navigate("/Home");
+    }
+
     return (
-        <div className='custom-cont'>
+        <div>
+            <Header />
+            <div className='custom-cont col-sm-11 offset-sm-3'>
             <div className="custom-signup">
-                <h2>Sign Up</h2>
-                <Form>
-                    <Form.Group controlId="formBasicName">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter your name" />
-                    </Form.Group>
+                <h1>Sign Up</h1>
 
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
-                    </Form.Group>
+                <input type="text" value={username} onChange={(e)=>setUsername(e.target.value)} className="form-control" placeholder="Username" />  <br />
+                <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} className="form-control" placeholder="Email" />  <br />
+                <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} className="form-control" placeholder="Password" />  <br />
+                <input type="password" className="form-control" placeholder="Confirm Password" />  <br />
 
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicConfirmPassword">
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Confirm Password" />
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="I agree to the terms and conditions" />
-                    </Form.Group>
-
-                    <Button variant="primary" type="submit" className="custom-btn">
-                        Sign Up
-                    </Button>
-                </Form>
+                <Button onClick={signup} className="custom-btn"> Sign Up </Button> <br />
             </div>
 
             <img src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' className="custom-sideimg" fluid />
         </div>
+        </div>
+        
     );
 }
 

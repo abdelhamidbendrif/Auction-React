@@ -1,4 +1,3 @@
-// App.jsx
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './Header';
@@ -11,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        {/*<Header />*/}
         <Routes>
           <Route path='/Home' element={<Home />} />
           <Route path='/MyProducts' element={<MyProducts />} />

@@ -11,9 +11,7 @@ function Header() {
   return (
     <Navbar expand="lg" variant="dark" className="custom-head mb-1">
       <Container>
-        <Navbar.Brand href="#">
-          Auction Now
-        </Navbar.Brand>
+        <Navbar.Brand href="#">Auction Now </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarCollapse" />
         <Navbar.Collapse id="navbarCollapse">
 
@@ -21,13 +19,14 @@ function Header() {
             <FormControl
               type="search"
               placeholder="Search"
-              className="custom-placeholder rounded-pill py-1 bg-dark text-light"
+              className="custom-placeholder rounded-pill py-1 bg-black text-light"
               aria-label="Search"
             />
             <Button variant="outline-success" className="rounded-pill ">
               <AiOutlineSearch />
             </Button>
           </Form>
+
 
           <Nav className="custom-links">
             <Nav.Link> <Link to="/Home" className={`custom-routlinks ${location.pathname === '/Home' ? 'active' : ''}`}> Home </Link> </Nav.Link>
@@ -45,10 +44,19 @@ function Header() {
               </NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title="Account" id="basic-nav-dropdown">
-              <NavDropdown.Item> <Link to="/Login" className={`custom-droproutlinks ${location.pathname === '/login' ? 'active' : ''}`}> Login </Link> </NavDropdown.Item>
-              <NavDropdown.Item> <Link to="/Register" className={`custom-droproutlinks ${location.pathname === '/register' ? 'active' : ''}`}> Sign Up </Link></NavDropdown.Item>
-            </NavDropdown>
+            {
+              localStorage.getItem("user-info") ?
+                <>
+                 <Nav.Link>  <Link className='custom-routlinks'> Profile </Link></Nav.Link>
+                </> :
+                <>
+                  <NavDropdown title="Account" id="basic-nav-dropdown">
+                    <NavDropdown.Item> <Link to="/Login" className={`custom-droproutlinks ${location.pathname === '/login' ? 'active' : ''}`}> Login </Link> </NavDropdown.Item>
+                    <NavDropdown.Item> <Link to="/Register" className={`custom-droproutlinks ${location.pathname === '/register' ? 'active' : ''}`}> Sign Up </Link></NavDropdown.Item>
+                  </NavDropdown>
+                </>
+            }
+
           </Nav>
         </Navbar.Collapse>
       </Container>

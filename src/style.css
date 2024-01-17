@@ -16,7 +16,7 @@
   .custom-routlinks {
     text-decoration: none !important;
     color: lightgray !important;
-    padding: 30px 0 !;
+    padding: 30px 0 ;
   }
   
  
@@ -57,11 +57,13 @@
     }
     .custom-signup {
       margin-bottom: 50px;
+      width: 70% !important;
     }
   }
 
   .custom-signup {
     width: 40%;
+    margin-right: 30px;
   }
 
   .custom-login {
