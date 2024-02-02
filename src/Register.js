@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { Button, CardBody, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import './style.css';
 
 function Register() {
+
+    useEffect(()=>{
+        if(localStorage.getItem('user-info')){
+            navigate("/Home");
+        }
+    },[]);
 
     const [username,setUsername] = useState('');
     const [email,setEmail] = useState('');
@@ -26,6 +32,7 @@ function Register() {
 
         result = await result.json();
         console.warn("result",result);
+
         localStorage.setItem("user-info",JSON.stringify(result));
 
         navigate("/Home");
@@ -34,14 +41,14 @@ function Register() {
     return (
         <div>
             <Header />
-            <div className='custom-cont col-sm-11 offset-sm-3'>
+            <div className='custom-cont'>
             <div className="custom-signup">
-                <h1>Sign Up</h1>
+                <h1 className='mb-4 font-b'>Get Started</h1>
 
                 <input type="text" value={username} onChange={(e)=>setUsername(e.target.value)} className="form-control" placeholder="Username" />  <br />
                 <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} className="form-control" placeholder="Email" />  <br />
                 <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} className="form-control" placeholder="Password" />  <br />
-                <input type="password" className="form-control" placeholder="Confirm Password" />  <br />
+                <input type="password" className="form-control mb-3" placeholder="Confirm Password"  />  <br />
 
                 <Button onClick={signup} className="custom-btn"> Sign Up </Button> <br />
             </div>

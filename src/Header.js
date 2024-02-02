@@ -1,21 +1,28 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown, Container, Form, FormControl, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './style.css';
+
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  let user = JSON.parse(localStorage.getItem('user-info'));
+  
+  function Logout() {
+    localStorage.clear();
+    navigate("/Home");
+  }
 
   return (
-    <Navbar expand="lg" variant="dark" className="custom-head mb-1">
+    <Navbar expand="lg" variant="dark" className="custom-head" collapseOnSelect>
       <Container>
-        <Navbar.Brand href="#">Auction Now </Navbar.Brand>
+        <Navbar.Brand as={Link} to="/Home" className='custom-brand font-b'>Auction Now</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarCollapse" />
         <Navbar.Collapse id="navbarCollapse">
 
-          <Form className="d-flex align-items-center custom-search ">
+          <Form className="d-flex align-items-center custom-search">
             <FormControl
               type="search"
               placeholder="Search"
@@ -27,34 +34,30 @@ function Header() {
             </Button>
           </Form>
 
-
           <Nav className="custom-links">
-            <Nav.Link> <Link to="/Home" className={`custom-routlinks ${location.pathname === '/Home' ? 'active' : ''}`}> Home </Link> </Nav.Link>
-            <Nav.Link> <Link to="/MyProducts" className={`custom-routlinks ${location.pathname === '/MyProducts' ? 'active' : ''}`}> MyProducts </Link></Nav.Link>
-            <NavDropdown title="Categories" id="basic-nav-dropdown">
-              <NavDropdown.Item>
-                <Link to="/category1" className={`custom-droproutlinks ${location.pathname === '/category1' ? 'active' : ''}`}>Category 1</Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link to="/category2" className={`custom-droproutlinks ${location.pathname === '/category2' ? 'active' : ''}`}>Category 2</Link>
-              </NavDropdown.Item>
+            <Nav.Link as={Link} to="/Home" className="custom-routlinks">Home</Nav.Link>
+
+            <NavDropdown title={`Categories`} id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/category1" className="custom-droproutlinkss"> Electronics </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/category1" className="custom-droproutlinkss"> Cars </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/category1" className="custom-droproutlinkss"> Kids </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/category2" className="custom-droproutlinks"> Niggas </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item>
-                <Link to="/all-categories" className={`custom-droproutlinks ${location.pathname === '/all-categories' ? 'active' : ''}`}>All Categories</Link>
-              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/all-categories" className="custom-droproutlinks">All Categories</NavDropdown.Item>
             </NavDropdown>
 
-            {
-              localStorage.getItem("user-info") ?
-                <>
-                 <Nav.Link>  <Link className='custom-routlinks'> Profile </Link></Nav.Link>
-                </> :
-                <>
-                  <NavDropdown title="Account" id="basic-nav-dropdown">
-                    <NavDropdown.Item> <Link to="/Login" className={`custom-droproutlinks ${location.pathname === '/login' ? 'active' : ''}`}> Login </Link> </NavDropdown.Item>
-                    <NavDropdown.Item> <Link to="/Register" className={`custom-droproutlinks ${location.pathname === '/register' ? 'active' : ''}`}> Sign Up </Link></NavDropdown.Item>
-                  </NavDropdown>
-                </>
+            {localStorage.getItem("user-info") ?
+              <>
+                <Nav.Link as={Link} to="/MyProducts" className="custom-routlinks">MyProducts</Nav.Link>
+                <NavDropdown title={ user && user.username } id="basic-nav-dropdown" className="mr-5 text-white">
+                  <NavDropdown.Item as={Link} to="/Profile" className="custom-droproutlinks">Profile</NavDropdown.Item>
+                  <NavDropdown.Item onClick={Logout} className="custom-droproutlinks">Logout</NavDropdown.Item>
+                </NavDropdown>
+              </> :
+              <>
+                 <Nav.Link as={Link} to="/Login" className="custom-routlinks">Login</Nav.Link>
+                 <Nav.Link as={Link} to="/Register" className="mr-5 custom-routlinks">Signup</Nav.Link>
+              </>
             }
 
           </Nav>
