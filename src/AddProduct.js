@@ -7,19 +7,23 @@ import './style.css';
 
 function AddProduct() {
   const navigate = useNavigate();
+  let user = JSON.parse(localStorage.getItem('user-info'));
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [user_id, setUserId] = useState('');
   const [file, setFile] = useState('');
 
   async function addProduct() {
-    console.warn(name, description, price, file);
+    console.warn(name, description, file, user_id,price);
+    user_id = user.uid;
     const formData = new FormData;
     formData.append('file', file);
     formData.append('name', name);
     formData.append('description', description);
     formData.append('price', price);
+    formData.append('user_id', user_id);
 
     await axios.post('http://127.0.0.1:8000/api/addproduct', formData)
       .then(({ data }) => {

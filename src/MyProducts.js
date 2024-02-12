@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Header from './Header';
 
 function MyProducts() {
@@ -28,7 +30,11 @@ function MyProducts() {
 
   async function getData() {
     try {
-      let result = await fetch('http://localhost:8000/api/list');
+      let user = JSON.parse(localStorage.getItem('user-info'));
+      if (!user) {
+        return;
+      }
+      let result = await fetch('http://localhost:8000/api/user/' + user.uid + '/products');
       result = await result.json();
       setData(result);
     } catch (error) {
@@ -63,8 +69,14 @@ function MyProducts() {
                   <td>{item.name}</td>
                   <td>{item.price}</td>
                   <td>{item.description}</td>
-                  <td> <Button as={Link} to="/UpdateProduct" className='custom-update'>E</Button> 
-                   <Button onClick={() => deleteOperation(item.pid)} className='custom-delete'>D</Button></td>
+                  <td>
+                    <Button as={Link} to={"/UpdateProduct/" + item.pid } className='custom-update'>
+                      <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                    <Button onClick={() => deleteOperation(item.pid)} className='custom-delete'>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  </td>
                 </tr>
               )
             }
@@ -74,7 +86,6 @@ function MyProducts() {
         <Button className='custom-add' as={Link} to="/AddProduct" >Add Product</Button> <br /> <br /> <br />
       </div>
     </div>
-
   );
 }
 

@@ -43,6 +43,38 @@
   width: 300px !important;
 }
 
+/* error message */
+
+.error-message {
+  background-color: red;
+  color: white;
+
+}
+
+/* the carts in the home page */
+
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.product-card {
+  width: 200px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.product-card img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* responsive */
 @media (max-width: 1024px) {
   .custom-links {
     margin-left: 0 !important;
