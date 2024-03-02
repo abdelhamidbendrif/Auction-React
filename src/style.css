@@ -1,6 +1,7 @@
-.custom-head {
-  width: 100% !important;
-  background-color: rgb(17, 17, 17);
+/* this is the font bebas */
+.font-a {
+  font-family: 'Protest Strike', sans-serif !important;
+  letter-spacing: 1px;
 }
 
 .font-b {
@@ -8,6 +9,14 @@
   letter-spacing: 1px;
 }
 
+/* head */
+.custom-head {
+  width: 100% !important;
+  background-color: rgb(17, 17, 17);
+  display: flex;
+  align-items: center;
+}
+ 
 .custom-brand {
   color: white !important;
   /*font-weight: bold !important;*/
@@ -20,6 +29,7 @@
   font-size: 14px !important;
 }
 
+/* links */
 .custom-links {
   display: flex !important;
   margin-right: auto !important;
@@ -38,10 +48,32 @@
   color: black !important;
 }
 
+/* search */
 .custom-search {
   margin-right: 20% !important;
   width: 300px !important;
 }
+
+
+/* container of the sign up */
+.custom-signup {
+  width: 40%;
+  margin-right: 30px;
+}
+
+/* container of the login */
+.custom-login {
+  width: 40%;
+}
+
+/* the container of the form sign up and login */
+.custom-cont {
+  margin: 100px 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 /* error message */
 
@@ -49,6 +81,11 @@
   background-color: red;
   color: white;
 
+}
+
+/* the image in the registration page */
+.custom-sideimg {
+  width: 45%;
 }
 
 /* the carts in the home page */
@@ -86,6 +123,10 @@
     width: 100% !important;
   }
 
+  .custom-sideimg {
+    width: 80% !important;
+  }
+  
   .custom-cont {
     width: 100% !important;
     display: flex;
@@ -93,37 +134,30 @@
     align-items: center;
   }
 
+  .custom-login {
+    width: 80% !important; 
+  }
+
   .custom-signup {
-    margin-bottom: 50px;
+    margin-bottom: 50px !important;
     width: 70% !important;
   }
 
-  .custom-sideimg {
-    width: 80% !important;
+  .input {
+    width: calc(100% - 20px) !important;
   }
+  
+  .bar {
+    width: calc(100% - 20px) !important;
+  }
+
+  .highlight {
+    width: calc(100% - 20px) !important; 
+  }
+  
 }
 
-.custom-signup {
-  width: 40%;
-  margin-right: 30px;
-}
-
-.custom-login {
-  width: 40%;
-}
-
-.custom-cont {
-  margin: 100px 0 0 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.custom-sideimg {
-  width: 45%;
-}
-
+/* buttons */
 .custom-btn {
   background-color: rgb(17, 17, 17) !important;
   border: 0px rgb(17, 17, 17) !important;
@@ -187,4 +221,210 @@
   color: white;
   padding: 10px 0;
   text-align: center;
+}
+
+/* text fields in login and signup form from uiverse --------------------------------------------------- */
+.group {
+  position: relative;
+ }
+ 
+ .input {
+  font-size: 16px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 600px;
+  border: none;
+  border-bottom: 1px solid #515151;
+  background: transparent;
+ }
+ 
+ .input:focus {
+  outline: none;
+ }
+ 
+ label {
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+ }
+ 
+ .input:focus ~ label, .input:valid ~ label {
+  top: -20px;
+  font-size: 14px;
+  color: rgb(17, 17, 17);
+ }
+ 
+ .bar {
+  position: relative;
+  display: block;
+  width: 600px;
+ }
+ 
+ .bar:before, .bar:after {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: rgb(17, 17, 17);
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+ }
+ 
+ .bar:before {
+  left: 50%;
+ }
+ 
+ .bar:after {
+  right: 50%;
+ }
+ 
+ .input:focus ~ .bar:before, .input:focus ~ .bar:after {
+  width: 50%;
+ }
+ 
+ .highlight {
+  position: absolute;
+  height: 60%;
+  width: 600px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+ }
+ 
+ .input:focus ~ .highlight {
+  animation: inputHighlighter 0.3s ease;
+ }
+ 
+ @keyframes inputHighlighter {
+  from {
+   background: rgb(17, 17, 17);
+  }
+ 
+  to {
+   width: 0;
+   background: transparent;
+  }
+ }
+
+/*-----------------------------------------------------------------------------------------------*/
+
+/* Product card STYLE */
+.card {
+  --font-color: #333; 
+  --font-color-sub: #777; 
+  --bg-color: #fff;
+  --main-color: rgb(15, 192, 15);
+  --main-focus: #f02d2d;
+  width: 90%;
+  max-width: 400px;
+  height: auto;
+  margin: 0 auto;
+  border: 2px solid var(--main-color);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 15px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+  margin-top: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.card-img {
+  width: 100%;
+  max-height: 300px;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--font-color);
+  text-align: center; 
+}
+
+.card-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--font-color-sub);
+  text-align: center; 
+}
+
+.card-divider {
+  width: 100%;
+  border: none;
+  height: 2px; 
+  background-color: var(--main-color); 
+  border-radius: 5px; 
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-price {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--main-color); 
+}
+
+.card-price span {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--font-color-sub);
+}
+.title {
+  font-size: 32px; 
+  font-weight: bold;
+  color: #333; 
+  text-align: center;
+  margin-top: 10px; 
+  text-transform: uppercase; 
+  letter-spacing: 2px; 
+}
+.card-btn {
+  height: 40px;
+  width: 150px; 
+  background: var(--bg-color);
+  border: 2px solid var(--main-color);
+  border-radius: 5px;
+  padding: 0 15px;
+  transition: all 0.3s;
+  font-size: 16px; 
+  color: white; 
+  background-color: rgb(15, 192, 15) !important; 
+}
+
+.card-btn:hover {
+  background-color: rgb(85, 242, 85) !important; 
+}
+
+/* Avatar design -------------------------------------------------------------------------*/
+
+.avatar {
+  border-radius: 50%;
+  margin-left: 10px;
 }

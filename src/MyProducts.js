@@ -24,7 +24,6 @@ function MyProducts() {
     });
 
     result = await result.json();
-    alert(pid);
     getData();
   }
 
@@ -34,7 +33,7 @@ function MyProducts() {
       if (!user) {
         return;
       }
-      let result = await fetch('http://localhost:8000/api/user/' + user.uid + '/products');
+      let result = await fetch('http://localhost:8000/api/user/' + user.id + '/products');
       result = await result.json();
       setData(result);
     } catch (error) {
@@ -51,39 +50,40 @@ function MyProducts() {
   return (
     <div>
       <Header />
-      <div className='d-flex flex-column align-items-center'>
+      <div className='d-flex flex-column align-items-center font-a'>
         <h1> Product List </h1>  <br />
         <div className=' col-sm-8 off-sm-2 '>
+          <Button className='custom-add' as={Link} to="/AddProduct" >Add Product</Button> <br /> <br /> <br />
           <Table bordered>
-            <tr style={{ height: 50 }} >
-              <th>Image</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Description</th>
-              <th>Operations</th>
-            </tr>
-            {
-              data.map((item) =>
-                <tr>
-                  <td> <img style={{ width: 100, height: 100 }} src={"http://localhost:8000/" + item.file_path} /> </td>
-                  <td>{item.name}</td>
-                  <td>{item.price}</td>
-                  <td>{item.description}</td>
-                  <td>
-                    <Button as={Link} to={"/UpdateProduct/" + item.pid } className='custom-update'>
-                      <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button onClick={() => deleteOperation(item.pid)} className='custom-delete'>
-                      <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                  </td>
-                </tr>
-              )
-            }
-          </Table>
+  <tbody>
+    <tr style={{ height: 50 }} >
+      <th>Image</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Operations</th>
+    </tr>
+    {
+      data.map((item) =>
+        <tr key={item.pid}>
+          <td> <img style={{ width: 100, height: 100 }} src={"http://localhost:8000/" + item.file_path} /> </td>
+          <td>{item.name}</td>
+          <td>{item.price} $</td>
+          <td>
+            <Button as={Link} to={"/UpdateProduct/" + item.pid} className='custom-update'>
+              <FontAwesomeIcon icon={faEdit} />
+            </Button>
+            <Button onClick={() => deleteOperation(item.pid)} className='custom-delete'>
+              <FontAwesomeIcon icon={faTrash} />
+            </Button>
+          </td>
+        </tr>
+      )
+    }
+  </tbody>
+</Table>
+
         </div>
-        <br /> <br /> <br />
-        <Button className='custom-add' as={Link} to="/AddProduct" >Add Product</Button> <br /> <br /> <br />
+        <br /> <br />
       </div>
     </div>
   );

@@ -7,50 +7,53 @@ import './style.css';
 
 function UpdateProduct() {
 
-  const { pid } = useParams(); 
+  const { pid } = useParams();
   const navigate = useNavigate();
-  const [data, setData] = useState({}); 
+  const [data, setData] = useState({});
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [file, setFile] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => { // Defining fetchData function
+    const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/product/${pid}`);
-        if (!response.ok) {
+        let result = await fetch(`http://localhost:8000/api/product/${pid}`);
+        if (!result.ok) {
           throw new Error('Failed to fetch data');
         }
-        const result = await response.json();
+        result = await result.json();
         setData(result);
+        setName(result.name);
+        setDescription(result.description);
+        setPrice(result.price);
+        setFile(result.file);
+
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
     };
-
-    fetchData(); 
+    fetchData();
   }, [pid]);
 
   async function update() {
-    console.warn(name, description, price, file);
-    const formData = new FormData;
+    const formData = new FormData();
     formData.append('file', file);
     formData.append('name', name);
     formData.append('description', description);
     formData.append('price', price);
 
-    await axios.post('http://127.0.0.1:8000/api/update/' + pid , formData)
-      .then(({ data }) => {
-        console.log(data.message);
-        navigate('/MyProducts')
-      }).catch(({ response }) => {
-        if (response.status == 442) {
-          console.log(response.data.errors);
-        } else {
-          console.log(response.data.message);
-        }
-      });
+    console.log(formData);
+
+    const response = await axios.post('http://localhost:8000/api/update/' + pid + '?_method=PUT', formData);
+
+    if (response.status === 200) {
+      console.log(response.data.message);
+      navigate('/MyProducts');
+    } else {
+      console.log('Unexpected status:', response.status);
+    }
+
   }
 
   return (
@@ -61,11 +64,11 @@ function UpdateProduct() {
           <h1 className="font-b mb-4">Update Product</h1>
 
           <Form>
-            <input type="text" defaultValue={data.name} placeholder="Name" className="form-control mb-2 " /> <br />
-            <input type="number" defaultValue={data.price} placeholder="Price" className="form-control mb-3 " /> <br />
-            <input type="text" defaultValue={data.description} placeholder="Description" className="form-control mb-3" /> <br />
+            <input type="text" onChange={(e) => setName(e.target.value)} defaultValue={data.name} placeholder="Name" className="form-control mb-2 " /> <br />
+            <input type="number" onChange={(e) => setPrice(e.target.value)} defaultValue={data.price} placeholder="Price" className="form-control mb-3 " /> <br />
+            <input type="text" onChange={(e) => setDescription(e.target.value)} defaultValue={data.description} placeholder="Description" className="form-control mb-3" /> <br />
             <img style={{ width: 100, height: 100 }} src={"http://localhost:8000/" + data.file_path} />
-            <input type="file" defaultValue={data.file_path} className="mb-3 form-control custom-placeholder" />
+            <input type="file" onChange={(e) => setFile(e.target.files[0])} defaultValue={data.file_path} className="mb-3 form-control custom-placeholder" />
 
             <Button onClick={update} className="custom-btn"> Done </Button>
           </Form>

@@ -5,7 +5,7 @@ import Header from './Header';
 import './style.css';
 
 function Register() {
-    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -19,7 +19,7 @@ function Register() {
     }, []);
 
     async function signup() {
-        if (!username || !email || !password || !confirmPassword) {
+        if (!name || !email || !password || !confirmPassword) {
             setError("All fields are required.");
             return;
         }
@@ -31,17 +31,48 @@ function Register() {
             setError("Please enter a valid email address.");
             return;
         }
-        if (!/^\w+$/.test(username)) {
+        if (!/^\w+$/.test(name)) {
             setError("Username must be a single word without spaces.");
             return;
         }
 
-        let Item = { username, email, password };
-        console.warn(Item);
+        // Check email availability
+        let emailCheck = await fetch('http://localhost:8000/api/checkEmail', {
+            method: 'POST',
+            body: JSON.stringify({ email }),
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        });
+        emailCheck = await emailCheck.json();
+        if (emailCheck.exists) {
+            setError("Email is already in use.");
+            return;
+        }
+
+        // Check username availability
+        let usernameCheck = await fetch('http://localhost:8000/api/checkUsername', {
+            method: 'POST',
+            body: JSON.stringify({ name }),
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        });
+        usernameCheck = await usernameCheck.json();
+        if (usernameCheck.exists) {
+            setError("Username is already in use.");
+            return;
+        }
+
+
+        let newUser = { name, email, password };
+        console.warn("newUser", newUser);
 
         let result = await fetch('http://localhost:8000/api/register', {
             method: 'POST',
-            body: JSON.stringify(Item),
+            body: JSON.stringify(newUser),
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
@@ -67,14 +98,37 @@ function Register() {
             {error && <div className="error-message">{error}</div>}
             <div className='custom-cont'>
                 <div className="custom-signup">
-                    <h1 className='mb-4 font-b'>Get Started</h1>
+                    <h1 className='mb-5 font-b'>Get Started</h1>
 
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="form-control" placeholder="Username" required />  <br />
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" placeholder="Email" required />  <br />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" placeholder="Password" required />  <br />
-                    <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="form-control mb-3" placeholder="Confirm Password" required />  <br />
+                    <div className="group">
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="input mt-3" required />
+                        <span className="highlight"></span>
+                        <span className="bar"></span>
+                        <label className='font-b'>Username</label>
+                    </div> <br />
 
-                    <Button onClick={signup} className="custom-btn"> Sign Up </Button> <br />
+                    <div className="group">
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input mt-3" required />
+                        <span className="highlight"></span>
+                        <span className="bar"></span>
+                        <label className='font-b'>Email</label>
+                    </div> <br />
+
+                    <div className="group">
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input mt-3" required />
+                        <span className="highlight"></span>
+                        <span className="bar"></span>
+                        <label className='font-b'>Password</label>
+                    </div> <br />
+
+                    <div className="group">
+                        <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="input mt-3" required />
+                        <span className="highlight"></span>
+                        <span className="bar"></span>
+                        <label className='font-b'>Confirm Password</label>
+                    </div> <br />
+
+                    <Button onClick={signup} className="custom-btn mt-5 mb-5 font-b"> Sign Up </Button> <br /> <br /> <br />
                 </div>
 
                 <img src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' className="custom-sideimg" fluid />
