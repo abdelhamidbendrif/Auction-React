@@ -12,15 +12,20 @@ function AvatarUpload() {
     async function handleUpload() {
         const formData = new FormData();
         formData.append('file', avatar);
-        const response = await axios.post('http://localhost:8000/api/upload-avatar/'+ user.id + '?_method=PUT' , formData);
 
-        console.warn("response is",JSON.stringify(response));
-        if (response.status === 200) {
-            console.log(response.data.message);
-            navigate('/Home');
-          } else {
-            console.log('Unexpected status:', response.status);
-          }
+        try {
+            const response = await axios.post(`http://localhost:8000/api/upload-avatar/${user.id}?_method=PUT`, formData);
+
+            console.warn("response is", JSON.stringify(response));
+            if (response.status === 200) {
+                console.log(response.data.message);
+                navigate('/Home');
+            } else {
+                console.log('Unexpected status:', response.status);
+            }
+        } catch (error) {
+            console.error('Error uploading avatar:', error);
+        }
     }
 
     return (
@@ -28,7 +33,7 @@ function AvatarUpload() {
             <Header/>
             <Form>
                 <input type="file" onChange={e => setAvatar(e.target.files[0])} className="mb-3 form-control custom-placeholder" />
-                <Button onClick={handleUpload} className="custom-btn" >Upload</Button>
+                <Button onClick={handleUpload} className="custom-btn">Upload</Button>
             </Form>
         </div>
     );

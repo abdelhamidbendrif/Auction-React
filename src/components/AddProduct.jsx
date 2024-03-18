@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap'; // Import Modal from react-bootstrap
 import axios from "axios";
 import Header from './Header';
 import './style.css';
@@ -8,29 +8,34 @@ import './style.css';
 function AddProduct() {
   const navigate = useNavigate();
   let user = JSON.parse(localStorage.getItem('user-info'));
-  console.warn(" user id :", user.id);
-
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [file, setFile] = useState('');
   const [expirationTime, setExpirationTime] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false); 
 
   async function addProduct() {
-    const formData = new FormData;
+  
+    if (!showConfirmation) {
+      setShowConfirmation(true);
+      return; 
+    }
+
+    const formData = new FormData();
     formData.append('file', file);
     formData.append('name', name);
     formData.append('description', description);
     formData.append('price', price);
     formData.append('user_id', user.id);
-    formData.append('expiration_time', expirationTime); // Add expiration time to form data
+    formData.append('expiration_time', expirationTime); 
 
     await axios.post('http://127.0.0.1:8000/api/addproduct', formData)
       .then(({ data }) => {
         console.log(data.message);
-        navigate('/MyProducts')
+        navigate('/MyProducts');
       }).catch(({ response }) => {
-        if (response.status == 442) {
+        if (response.status === 442) {
           console.log(response.data.errors);
         } else {
           console.log(response.data.message);
@@ -59,9 +64,25 @@ function AddProduct() {
 
             <Button onClick={addProduct} className="custom-btn"> Done </Button>
           </Form>
-
         </div>
       </div>
+
+      <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title className="text-center">Confirm Information</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="text-center">Are you sure you want to confirm the information you entered?</p>
+        </Modal.Body>
+        <Modal.Footer className="justify-content-center">
+          <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={addProduct}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

@@ -1,17 +1,16 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Header from './Header';
-import Login from './Login';
-import Register from './Register';
-import MyProducts from './MyProducts';
-import Home from './Home';
-import AddProduct from './AddProduct';
-import UpdateProduct from './UpdateProduct';
-import Search from './Search';
-import SearchResults from './SearchResults';
-import ProductCard from './ProductCard';
+import Login from './components/Login';
+import Register from './components/Register';
+import MyProducts from './components/MyProducts';
+import Home from './components/Home';
+import AddProduct from './components/AddProduct';
+import UpdateProduct from './components/UpdateProduct';
+import Search from './components/Search';
+import SearchResults from './components/SearchResults';
+import ProductCard from './components/ProductCard';
 import './App.css';
-import AvatarUpload from './AvatarUpload';
+import AvatarUpload from './components/AvatarUpload';
 
 function App() {
   

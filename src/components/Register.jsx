@@ -1,8 +1,9 @@
+//register.jsx
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
-import './style.css';
+import './register.css';
 
 function Register() {
     const [name, setName] = useState('');
