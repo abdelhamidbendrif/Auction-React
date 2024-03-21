@@ -47,8 +47,7 @@ function ProductCard() {
 
             setRemainingTime(`${days}d ${hours}h ${minutes}m ${seconds}s`);
             if (distance < 60000) {
-              // If less than a minute left
-              document.getElementById("remaining-time").style.color = "red"; // Change color to red
+              document.getElementById("remaining-time").style.color = "red"; 
             }
           } else {
             setRemainingTime(null);
@@ -85,7 +84,7 @@ function ProductCard() {
           `http://localhost:8000/api/user/${data.user_id}`
         );
         setUserDetails(response.data);
-        setUserLoading(false); // Set user loading to false once user details are fetched
+        setUserLoading(false); 
       } catch (error) {
         console.error("Error fetching user details:", error.message);
       }
@@ -175,13 +174,10 @@ function ProductCard() {
             <span className="product-price-label">Price : </span>
             <span className="product-price-value">${price}</span>
           </div>
-          <div className="product-time">
-            <span className="product-time-label">Time Left : </span>
-            <span className="product-time-value" id="remaining-time">
-              {remainingTime}
-            </span>
+          <div className="timer-label">
+          <h3 >Time Left:{remainingTime}</h3>
           </div>
-          {expiredMessage && <p className="red-text">{expiredMessage}</p>}
+          {expiredMessage && <p className="expired-message">{expiredMessage}</p>}
           {!expiredMessage && user && (
             <>
               <p>{user.id.toString() === data.user_id ? '' : ''}</p>
