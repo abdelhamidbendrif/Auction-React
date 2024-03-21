@@ -74,7 +74,6 @@ function MyProducts() {
         <h1> Product List </h1>  <br />
         <div className=' col-sm-8 off-sm-2 '>
           <Button className='custom-add' as={Link} to="/AddProduct" >Add Product</Button>
-          <Button className='custom-add' as={Link} to="/AddAuction" >Add Auction</Button> <br /> <br /> <br />
           
             <Table>
               <thead>

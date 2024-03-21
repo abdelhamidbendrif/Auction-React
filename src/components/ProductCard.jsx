@@ -4,7 +4,6 @@ import "./style.css";
 import "./ProductCard.css";
 import Header from "./Header";
 import axios from "axios";
-import { Button, Modal } from "react-bootstrap";
 
 function ProductCard() {
   let user = JSON.parse(localStorage.getItem("user-info"));
@@ -16,19 +15,15 @@ function ProductCard() {
   const [remainingTime, setRemainingTime] = useState("");
   const [expiredMessage, setExpiredMessage] = useState("");
   const [userDetails, setUserDetails] = useState(null);
-  const [showInput, setShowInput] = useState(false);
-  const [timer, setTimer] = useState("");
-  const [lastBidder, setLastBidder] = useState("");
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false); // State for confirmation modal
-  const [bidPlaced, setBidPlaced] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [userLoading, setUserLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch product data
     const fetchData = async () => {
       try {
         let result = await fetch(`http://localhost:8000/api/product/${pid}`);
         if (!result.ok) {
-          throw new Error("error");
+          throw new Error("Ha Howa Erreur");
         }
         result = await result.json();
         setData(result);
@@ -36,7 +31,6 @@ function ProductCard() {
 
         const expirationTime = new Date(result.expiration_time).getTime();
 
-        // Update remaining time
         const updateRemainingTime = () => {
           const now = new Date().getTime();
           const distance = expirationTime - now;
@@ -57,11 +51,12 @@ function ProductCard() {
               document.getElementById("remaining-time").style.color = "red"; // Change color to red
             }
           } else {
-            setRemainingTime(null); // Set remaining time to null if auction has ended
-            setExpiredMessage(""); // Clear the expired message
-            setShowInput(true); // Show input field after auction ends
+            setRemainingTime(null);
+            setExpiredMessage("This auction has ended");
           }
         };
+
+        // Update remaining time every second
         updateRemainingTime();
         const timerId = setInterval(updateRemainingTime, 1000);
 
@@ -71,26 +66,26 @@ function ProductCard() {
       }
     };
 
-    fetchData();
+    fetchData()
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
   }, [pid]);
 
   useEffect(() => {
-    // Check if auction has expired
     const isAuctionExpired = localStorage.getItem("auctionExpired");
     if (isAuctionExpired === "true") {
-      setExpiredMessage(""); // Clear the expired message
-      setShowInput(true); // Show input field if auction has ended
+      setExpiredMessage("This auction has ended");
     }
   }, []);
 
   useEffect(() => {
-    // Fetch user details
     const fetchUserDetails = async () => {
       try {
         const response = await axios.get(
           `http://localhost:8000/api/user/${data.user_id}`
         );
         setUserDetails(response.data);
+        setUserLoading(false); // Set user loading to false once user details are fetched
       } catch (error) {
         console.error("Error fetching user details:", error.message);
       }
@@ -100,112 +95,46 @@ function ProductCard() {
       fetchUserDetails();
     }
   }, [data.user_id]);
- // Function to handle bid confirmation
 
-
-// Fetch bidPlaced status from local storage on component mount
-useEffect(() => {
-  const bidPlacedStatus = localStorage.getItem("bidPlaced");
-  if (bidPlacedStatus === "true") {
-    setBidPlaced(true);
-  }
-}, []);
-
-// Modify the auction function to disable bidding if bidPlaced is true
-// Function to handle bid confirmation
-function confirmBid() {
-  const proposedPrice = parseFloat(localStorage.getItem("proposedPrice"));
-  if (!isNaN(proposedPrice)) {
-    // Close the modal
-    setConfirmModalOpen(false);
-
-    // Set bidPlaced to true
-    setBidPlaced(true);
-
-    // Save bidPlaced status in local storage
-    localStorage.setItem("bidPlaced", "true");
-
-    // Send bid with proposed price
-    sendBid(proposedPrice);
-  }
-}
-
-// Function to send bid with proposed price
-async function sendBid(proposedPrice) {
-  try {
-    // Update price with proposed price
-    const response = await axios.put(
-      `http://localhost:8000/api/update/${pid}`,
-      {
-        price: proposedPrice.toString(),
+  async function auction() {
+    try {
+      const increment = parseFloat(selectedIncrement);
+      if (isNaN(increment)) {
+        console.error("Invalid increment:", selectedIncrement);
+        return;
       }
-    );
+      const currentPrice = parseFloat(price);
+      if (isNaN(currentPrice)) {
+        console.error("Invalid price:", price);
+        return;
+      }
+      const updatedPrice = currentPrice + increment;
 
-    if (response.status === 200) {
-      console.log(response.data.message);
-      setPrice(proposedPrice.toString());
-      setShowInput(true); // Show input field after auction starts
-      startCountdownTimer(); // Start countdown after auction starts
-      
-      // Reset bidPlaced status to false
-      setBidPlaced(false);
-      localStorage.setItem("bidPlaced", "false");
-    } else {
-      console.log("Unexpected status:", response.status);
+      const response = await axios.put(
+        `http://localhost:8000/api/update/${pid}`,
+        {
+          price: updatedPrice.toString(),
+        }
+      );
+
+      if (response.status === 200) {
+        console.log(response.data.message);
+        setPrice(updatedPrice.toString());
+      } else {
+        console.log("Unexpected status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error updating price:", error.message);
     }
-  } catch (error) {
-    console.error("Error updating price:", error.message);
   }
-}
-
-// Modify the auction function to disable bidding if bidPlaced is true
-async function auction() {
-  try {
-    if (!user) {
-      setErrorMessage("You need to log in first to place a bid.");
-      return;
-    }
-
-    const increment = parseFloat(selectedIncrement);
-    if (isNaN(increment)) {
-      console.error("Invalid increment:", selectedIncrement);
-      return;
-    }
-    const currentPrice = parseFloat(price);
-    if (isNaN(currentPrice)) {
-      console.error("Invalid price:", price);
-      return;
-    }
-    const updatedPrice = currentPrice + increment;
-
-    if (user.id === data.user_id) {
-      setErrorMessage("You cannot auction your own product");
-      return;
-    }
-
-    if (bidPlaced) {
-      setErrorMessage("You have already placed a bid.");
-      return;
-    }
-
-    // Open confirmation modal
-    setConfirmModalOpen(true);
-
-    // Set the price in localStorage for confirmation
-    localStorage.setItem("proposedPrice", updatedPrice.toString());
-  } catch (error) {
-    console.error("Error updating price:", error.message);
-  }
-}
-
-
 
   function handleIncrementChange(event) {
     setSelectedIncrement(event.target.value);
   }
-
-  // Function to handle bid confirmation
-
+  useEffect(() => {
+    console.log("User ID:", user ? user.id : null);
+    console.log("Product Owner ID:", data.user_id);
+  }, [user, data.user_id]);
 
   return (
     <div>
@@ -221,16 +150,21 @@ async function auction() {
         </div>
         <div className="product-details">
           <div className="user-info">
-            <img
-              className="user-avatar"
-              style={{ width: 45, height: 45 }}
-              src={
-                userDetails && userDetails.avatar
-                  ? `http://localhost:8000/${userDetails.avatar}`
-                  : "/unknown.jpg"
-              }
-              alt="Avatar"
-            />
+            {userDetails && userDetails.avatar ? (
+              <img
+                className="user-avatar"
+                style={{ width: 45, height: 45 }}
+                src={`http://localhost:8000/${userDetails.avatar}`}
+                alt="Avatar"
+              />
+            ) : (
+              <img
+                className="user-avatar"
+                style={{ width: 45, height: 45 }}
+                src="/unknown.jpg"
+                alt="Unknown Avatar"
+              />
+            )}
             <h2 className="font-c user-name">
               {userDetails ? userDetails.name : "..."}
             </h2>
@@ -242,62 +176,32 @@ async function auction() {
             <span className="product-price-value">${price}</span>
           </div>
           <div className="product-time">
-            {!showInput && (
-              <>
-                <p>Auction will start soon...</p>
-                <span className="product-time-label">Time Left : </span>
-                <span className="product-time-value" id="remaining-time">
-                  {remainingTime}
-                </span>
-              </>
-            )}
-            {showInput && (
-              <>
-                <div className="countdown-container">
-                  {/* Display countdown when auction has started */}
-                  <p>Auction ends in: {timer}</p>
-                </div>
-                <input
-                  type="number"
-                  value={selectedIncrement}
-                  onChange={handleIncrementChange}
-                  placeholder="Enter increment amount"
-                  className="form-control"
-                />
-                {user && user.id === data.user_id ? (
-                  <button className="product-button" disabled>
-                    Add Auction
-                  </button>
-                ) : (
-                  <button onClick={auction} className="product-button">
-                    Add Auction
-                  </button>
-                )}
-              </>
-            )}
+            <span className="product-time-label">Time Left : </span>
+            <span className="product-time-value" id="remaining-time">
+              {remainingTime}
+            </span>
           </div>
-          {expiredMessage && !showInput && (
-            <p className="red-text">{expiredMessage}</p>
+          {expiredMessage && <p className="red-text">{expiredMessage}</p>}
+          {!expiredMessage && user && (
+            <>
+              <p>{user.id.toString() === data.user_id ? '' : ''}</p>
+              {user.id.toString() !== data.user_id && (
+                <>
+                  <input
+                    type="number"
+                    value={selectedIncrement}
+                    onChange={handleIncrementChange}
+                    placeholder="Enter increment amount"
+                    className="form-control"
+                  />
+                  <button onClick={auction} className="product-button">Buy Now</button>
+                </>
+              )}
+            </>
           )}
+
         </div>
       </div>
-
-      <Modal show={confirmModalOpen} onHide={() => setConfirmModalOpen(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Bid</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Are you sure you want to place a bid for ${localStorage.getItem("proposedPrice")}?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setConfirmModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={confirmBid}>
-            Confirm Bid
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 }
