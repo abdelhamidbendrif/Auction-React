@@ -9,15 +9,17 @@
   .product-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     margin-top: 25px;
+    
   }
   
   /* Product image */
   .product-image {
     flex: 0 0 50%;
     overflow: hidden;
-    height: 80vh;
+    height: 70vh;
+   /** margin-left: 15px;**/
   }
   
   .product-image img {
@@ -29,22 +31,22 @@
   .product-details {
     flex: 0 0 50%;
     padding: 20px;
-    background-color: #f8f9fa;
-    height: 80vh;
+    height: 70vh;
   }
   
   .product-title {
-    font-size: 30px;
-    font-weight: bold;
-    color: #333;
+    margin-top: 15px;
     margin-bottom: 20px;
-    padding: 20px 10px;
+    margin-left: 20px;
+    
   }
   
   .product-description {
     font-size: 16px;
     color: #555;
     margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
   
   .product-price {
@@ -52,14 +54,12 @@
     font-weight: bold;
     color: #007bff;
     margin-bottom: 10px;
-    
   }
   
   .product-time {
     font-size: 16px;
     color: #555;
     margin-bottom: 20px;
-    
   }
   
 
@@ -68,31 +68,41 @@
     color: red;
   }
   
+  /* input of the bit increament */
+  
+  .incr-pay {
+    width: 400px !important;
+  }
+
   /* Product button */
   .product-button {
-    padding: 10px 15px !important;
+    padding: 10px 20px !important;
+    width: 400px;
+    letter-spacing: 2px;
     margin-top: 20px;
     font-size: 18px !important;
     font-weight: bold !important;
     color: #fff;
-    background-color: #000000 !important;
-    border: 0px #000000;
-    border-radius: 5px;
+    background-color: #0e0e0e !important;
+    border: 0px #0e0e0e;
+    border-radius: 15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   
   .product-button:hover {
-    background-color: #00b31e !important;
+    background-color: #ff0000 !important;
   }
   
   .user-info {
+    margin-left: 20px;
+    margin-top: 20px;
     display: flex;
     align-items: center !important;
   }
 
   .user-name {
-    margin: 1px 0 0 15px;
+    margin: 1px 0 0 8px;
   }
 
   .user-avatar {
@@ -100,35 +110,28 @@
     border: 3px black solid ;
     margin-left: 10px;
   }
-  .form-control {
-    font-size: 20px; /* Adjust the font size to make it bigger */
-    width: 100px; /* Set a smaller width */
-    height: 40px; /* Set a bigger height */
-  }
-  
-  .form-control::placeholder {
-    font-size: 14px; /* Adjust the placeholder font size to make it smaller */
-    opacity: 0.7; /* Reduce the opacity of the placeholder text */
-  }
 
-  
-  .timer-label {
-    margin-bottom: 5px;
-    display: inline-block;
-    font-weight: bold;
-    color: #ffffff; /* Text color */
-    background-color: #ff0000; /* Background color */
-    padding: 10px 15px; /* Add padding for better appearance */
-    border-radius: 5px; /* Add rounded corners */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); 
-  }
-  
+  @media only screen and (max-width: 1024px) {
+    .product-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 25px;
+      
+    }
 
+    .incr-pay {
+      width: 300px !important;
+    }
   
-  .expired-message {
-    color: #f44336; /* Red color */
-    font-weight: bold;
-    margin-top: 10px;
-    font-size: 18px;
+    /* Product button */
+    .product-button {
+      width: 300px !important;
+    }
+    
+    .make-offer {
+      display: flex;
+      flex-direction: column;
+    }
   }
-  

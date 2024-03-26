@@ -1,0 +1,144 @@
+/* Main container */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Profile info section */
+.profile-info {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Profile avatar */
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+
+
+/* Info details */
+.info-det {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-det h1 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Edit and logout buttons */
+.edit-out-btns {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.logout-btn, .edit-btn {
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.logout-btn {
+  background-color: #fb6035 !important;
+  border: #c34f5a !important;
+  border-radius: 10px !important;
+  transition: background-color 0.5s ease !important;
+}
+
+.logout-btn:hover {
+  transform: scale(1.01);
+  background-color: #ff0019 !important;
+  border: #65020c !important;
+}
+
+.edit-btn {
+  background-color: #3ec629 !important;
+  border: #22d607 !important;
+  margin-left: 10px;
+  border-radius: 10px !important;
+  transition: background-color 0.5s ease !important;
+}
+
+.edit-btn:hover {
+  transform: scale(1.01);
+  background-color: #22ff00 !important;
+  border: #1f7811 !important;
+}
+/* Profile things section */
+.profile-things {
+  width: 100%;
+}
+
+/* Profile controls section */
+.profile-controls {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+/* Profile actions section */
+/* Table styles */
+.profile-actions table {
+  width: 100%;
+}
+
+.profile-actions th,
+.profile-actions td {
+  padding: 12px;
+  text-align: left;
+}
+
+
+/* Profile.css */
+
+.profile-actions table thead {
+  background-color: black; /* Change background color to black */
+  color: white; /* Change text color to white */
+}
+.profile-actions tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.profile-actions tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive */
+@media only screen and (max-width: 768px) {
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .info-det h1 {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .edit-out-btns {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logout-btn, .edit-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}

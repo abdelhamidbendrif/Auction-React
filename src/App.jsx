@@ -9,9 +9,8 @@ import UpdateProduct from './components/UpdateProduct';
 import Search from './components/Search';
 import SearchResults from './components/SearchResults';
 import ProductCard from './components/ProductCard';
-import './App.css';
-import AvatarUpload from './components/AvatarUpload';
-
+import Profile from './components/Profile';
+import EditProfile from './components/EditProfile';
 function App() {
   
   return (
@@ -29,7 +28,8 @@ function App() {
           <Route path='/Login' element={<Login />} />
           <Route path='/Register' element={<Register />} />
           <Route path='/search-results' element={<SearchResults />} />
-          <Route path='/avatarUpload' element={<AvatarUpload />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/EditProfile/:id' element={<EditProfile />} />
         </Routes>
       </BrowserRouter>
       

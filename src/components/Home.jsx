@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import { useNavigate, Link } from "react-router-dom";
-import Header from "./Header";
+import Navbar from "./Navbar";
 import ProductCard from "./ProductCard";
-import Loading from "./Loading"; // Import the Loading component
+import Loading from "./Loading"; 
 import "./style.css";
 
 function Home() {
   const [newestProducts, setNewestProducts] = useState([]);
   const [mostExpensiveProducts, setMostExpensiveProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function Home() {
       );
       const data = await response.json();
       setMostExpensiveProducts(data);
-      setLoading(false); // Set loading to false once data is fetched
+      setLoading(false); 
     } catch (error) {
       console.error("Error fetching most expensive products:", error);
     }
@@ -48,9 +48,9 @@ function Home() {
 
   return (
     <div>
-      <Header />
+      <Navbar />
       <div>
-        {loading ? ( // Conditionally render loading screen
+        {loading ? ( 
           <Loading />
         ) : (
           <div className="rh">
@@ -65,7 +65,7 @@ function Home() {
                   onClick={() => handleProductClick(item)}
                 >
                   <img
-                    style={{ width: 100, height: 100 }}
+                    style={{ height: 100 }}
                     src={`http://localhost:8000/${item.file_path}`}
                     alt={item.name}
                   />

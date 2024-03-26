@@ -1,0 +1,116 @@
+/* EditProfile.css */
+
+.container {
+    margin-top: 30px;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body {
+    padding: 30px;
+  }
+  
+  .account-settings {
+    text-align: center;
+  }
+  
+  .user-profile {
+    margin-bottom: 20px;
+  }
+  
+  .img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 25px 10 10px rgb(0, 0, 0);
+  }
+  
+  .user-name {
+    margin-top: 20px;
+    font-size: 30px;
+    color: #000000;
+  }
+  
+  .user-email {
+    margin-top: 5px;
+    font-size: 15px;
+    color: #777;
+  }
+  
+  .text-primary {
+    color: #ff0000 !important;
+    font-size: 40px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  
+  .form-group {
+    margin-bottom: 25px;
+  }
+  
+  .form-control {
+    background-color: #f9f9f9;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+    color: #555;
+    box-shadow: none;
+  }
+  
+  .btn {
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+ /* Update the button colors */
+
+
+.btn-primary {
+  background-color: green !important; 
+  border-color: #00e208 !important; /* Red border color for primary button */
+  color: #fff !important;
+}
+
+.btn-secondary {
+  background-color: #ff0000 !important; 
+  border-color: #ff0000 !important; 
+  color: #ffffff !important;
+}
+
+.btn-secondary:hover{
+  background-color: rgb(255, 47, 47) !important; 
+
+}
+  .btn-primary:hover {
+    background-color: rgb(100, 211, 83) !important; 
+
+  }
+  
+  .text-right {
+    margin-top: 20px;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+  border: 2px solid #ccc; /* Light border color */
+  border-radius: 4px;
+  padding: 10px 15px; 
+  margin-bottom: 10px;
+  width: 100%;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+  border-color: #00cc00df; /* Primary color on focus for better feedback */
+}

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./style.css";
 import "./ProductCard.css";
-import Header from "./Header";
+import Navbar from "./Navbar";
 import axios from "axios";
+import Loading from "./Loading"; // Import the Loading component
 
 function ProductCard() {
   let user = JSON.parse(localStorage.getItem("user-info"));
@@ -17,6 +18,7 @@ function ProductCard() {
   const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userLoading, setUserLoading] = useState(true);
+  const [hasPlacedBid, setHasPlacedBid] = useState(false); // Track if the current user has placed a bid
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,7 +86,7 @@ function ProductCard() {
           `http://localhost:8000/api/user/${data.user_id}`
         );
         setUserDetails(response.data);
-        setUserLoading(false); 
+        setUserLoading(false);
       } catch (error) {
         console.error("Error fetching user details:", error.message);
       }
@@ -109,6 +111,16 @@ function ProductCard() {
       }
       const updatedPrice = currentPrice + increment;
 
+      if (user && user.id === data.user_id) {
+        setErrorMessage("You cannot auction your own product");
+        return;
+      }
+
+      if (hasPlacedBid) {
+        setErrorMessage("You have already placed a bid on this product");
+        return;
+      }
+
       const response = await axios.put(
         `http://localhost:8000/api/update/${pid}`,
         {
@@ -119,6 +131,7 @@ function ProductCard() {
       if (response.status === 200) {
         console.log(response.data.message);
         setPrice(updatedPrice.toString());
+        setHasPlacedBid(true); 
       } else {
         console.log("Unexpected status:", response.status);
       }
@@ -127,77 +140,77 @@ function ProductCard() {
     }
   }
 
+  function wish() {
+    console.error("still under development");
+  }
+
   function handleIncrementChange(event) {
     setSelectedIncrement(event.target.value);
   }
-  useEffect(() => {
-    console.log("User ID:", user ? user.id : null);
-    console.log("Product Owner ID:", data.user_id);
-  }, [user, data.user_id]);
 
   return (
     <div>
-      <Header />
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <div className="product-container">
-        <div className="product-image">
-          <img
-            className="img"
-            src={`http://localhost:8000/${data.file_path}`}
-            alt={data.name}
-          />
-        </div>
-        <div className="product-details">
+      <Navbar />
+      {loading || userLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
           <div className="user-info">
             {userDetails && userDetails.avatar ? (
-              <img
-                className="user-avatar"
-                style={{ width: 45, height: 45 }}
-                src={`http://localhost:8000/${userDetails.avatar}`}
-                alt="Avatar"
-              />
+              <img className="user-avatar" style={{ width: 45, height: 45 }} src={`http://localhost:8000/${userDetails.avatar}`} alt="Avatar" />
             ) : (
-              <img
-                className="user-avatar"
-                style={{ width: 45, height: 45 }}
-                src="/unknown.jpg"
-                alt="Unknown Avatar"
-              />
+              <img className="user-avatar" style={{ width: 45, height: 45 }} src="/unknown.jpg" />
             )}
-            <h2 className="font-c user-name">
-              {userDetails ? userDetails.name : "..."}
-            </h2>
+            <h2 className="font-a user-name"> {userDetails ? userDetails.name : ""} </h2>
           </div>
-          <h1 className="product-title">{data.name}</h1>
-          <p className="product-description">{data.description}</p>
-          <div className="product-price">
-            <span className="product-price-label">Price : </span>
-            <span className="product-price-value">${price}</span>
-          </div>
-          <div className="timer-label">
-          <h3 >Time Left:{remainingTime}</h3>
-          </div>
-          {expiredMessage && <p className="expired-message">{expiredMessage}</p>}
-          {!expiredMessage && user && (
-            <>
-              <p>{user.id.toString() === data.user_id ? '' : ''}</p>
-              {user.id.toString() !== data.user_id && (
-                <>
-                  <input
-                    type="number"
-                    value={selectedIncrement}
-                    onChange={handleIncrementChange}
-                    placeholder="Enter increment amount"
-                    className="form-control"
-                  />
-                  <button onClick={auction} className="product-button">Buy Now</button>
-                </>
-              )}
-            </>
-          )}
+          <h1 className="product-title font-b">{data.name}</h1>
+          <p className="product-description font-c">{data.description}</p>
+          <div className="product-container">
+            <div className="product-image">
+              <img
+                className="img"
+                src={`http://localhost:8000/${data.file_path}`}
+                alt={data.name}
+              />
+            </div>
+            <div className="product-details">
 
-        </div>
-      </div>
+              <div className="product-price font-c">
+                <span className="product-price-label">Price : </span>
+                <span className="product-price-value">${price}</span>
+              </div>
+              <div className="product-time font-c">
+                {remainingTime && (
+                  <>
+                    <span className="product-time-label">Time Left : </span>
+                    <span className="product-time-value" id="remaining-time">
+                      {remainingTime}
+                    </span>
+                  </>
+                )}
+              </div>
+
+
+              {expiredMessage && <p className="red-text font-c">{expiredMessage}</p>}
+              {!expiredMessage && user && (
+                <div className="make-offer">
+                  {user.id.toString() !== data.user_id && ( // Only show input and buttons if user is not the owner
+                    <>
+                      <input type="number" value={selectedIncrement} onChange={handleIncrementChange} placeholder="Enter increment amount" className="form-control incr-pay" />
+                      <button onClick={wish} className="product-button font-b"> Wish List </button>
+                      <button onClick={auction} className="product-button font-b"> Place a Bid </button>
+                    </>
+                  )}
+                </div>
+              )}
+
+            </div>
+          </div>
+
+          <br /><br /><br /><br /><br />
+        </>
+      )}
     </div>
   );
 }

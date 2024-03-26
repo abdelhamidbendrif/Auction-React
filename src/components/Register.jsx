@@ -1,9 +1,8 @@
-//register.jsx
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
-import './register.css';
+import Navbar from './Navbar';
+import './style.css';
 
 function Register() {
     const [name, setName] = useState('');
@@ -95,7 +94,7 @@ function Register() {
 
     return (
         <div>
-            <Header />
+            <Navbar />
             {error && <div className="error-message">{error}</div>}
             <div className='custom-cont'>
                 <div className="custom-signup">
