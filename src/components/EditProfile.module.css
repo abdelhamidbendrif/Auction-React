@@ -1,0 +1,175 @@
+.profileContainer {
+  max-width: 700px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 10px 10px 30px 0 rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  text-align: center;
+
+}
+.profileContainer:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.15);
+}
+
+.profileAvatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-top: -60px;
+  border: 4px solid #ffffff;
+  transition: border-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  
+}
+
+.profileAvatar:hover {
+  border-color: #ffffff;
+  transform: scale(1.1);
+}
+h2{margin-top:100px;
+  color: #000000;
+  font-size: 10px;
+  text-align: left;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+.userName{
+  margin-top: 10px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #000000;
+  font-weight: 600;
+  font-size: 1.1em;
+  text-align: center;
+}
+.userEmail {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #000000;
+  font-weight: 600;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="text"] {
+  width: calc(100% - 40px);
+  padding: 15px 20px;
+  margin-bottom: 25px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="text"]:focus {
+  border-color: #3cf942;
+}
+.cancelButton {
+  background-color: #ff3c00; 
+  color: #fff;
+  border: none;
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px; /* Adjust font size as needed */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.cancelButton:hover {
+  background-color: #e4562f; /* Darker shade of orange on hover */
+  transform: scale(1.05); /* Scale up slightly on hover */
+}
+
+.updateButton {
+  background-color: hsl(122, 100%, 50%); /* Green color */
+  color: #fff; /* White text */
+  border: none;
+  margin: 10px;
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.updateButton:hover {
+  background-color: #5ad860; /* Darker shade of green on hover */
+  transform: scale(1.05); /* Scale up slightly on hover */
+}
+
+
+
+label {
+  display: block;
+  margin-top: 25px;
+  letter-spacing: 1px;
+  color: #666;
+  font-size: 1em;
+}
+
+.inputGroup p {
+  min-width: 100px;
+  text-align: left;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  text-decoration: solid;
+}
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .profileContainer {
+    max-width: 90%;
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  .profileAvatar {
+    width: 80px;
+    height: 80px;
+    margin-top: -40px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="text"],
+  button {
+    width: calc(100% - 30px);
+    padding: 15px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileContainer {
+    max-width: 95%;
+    padding: 15px;
+  }
+
+  .profileAvatar {
+    width: 60px;
+    height: 60px;
+    margin-top: -30px;
+  }
+
+  label {
+    margin-top: 15px;
+    font-size: 0.9em;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="text"],
+  button {
+    width: calc(100% - 20px);
+    padding: 12px;
+    font-size: 14px;
+  }
+}

@@ -62,12 +62,12 @@
   transition: background-color 0.5s ease !important;
 }
 
+
 .logout-btn:hover {
   transform: scale(1.01);
-  background-color: #ff0019 !important;
+  background-color: #ffffff;
   border: #65020c !important;
 }
-
 .edit-btn {
   background-color: #3ec629 !important;
   border: #22d607 !important;
