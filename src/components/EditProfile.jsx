@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import Navbar from './Navbar';
 import styles from '../components/EditProfile.module.css'; // Import your styles
-import { Button,Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 
 function EditProfile() {
   const { id } = useParams();
@@ -45,8 +45,12 @@ function EditProfile() {
 
       if (response.status === 200) {
         console.log(response.data.message);
+        setSuccessMessage('Profile updated successfully'); // Set success message
+        setShowModal(true); // / Show modal when data is updated successfully
         navigate('/profile');
-      } else { console.log('Unexpected status:', response.status); }
+      } else {
+        console.log('Unexpected status:', response.status);
+      }
     } catch (error) {
       console.error('Error updating data:', error.message);
     }
@@ -68,11 +72,10 @@ function EditProfile() {
       if (responseCheckOldPassword.status !== 200) {
         setOldPasswordError('Old password is incorrect');
         setShowModal(true);
-      
         return;
       } else {
         setOldPasswordError('');
-      
+
       }
 
       const responseUpdatePassword = await axios.put(`http://localhost:8000/api/user/${id}/update-password`, {
@@ -93,7 +96,7 @@ function EditProfile() {
       }
     } catch (error) {
       console.error('Error updating password:', error.message);
-    
+
     }
   }
   function handleCancel() {
@@ -203,6 +206,7 @@ function EditProfile() {
             </Button>
           </Modal.Footer>
         </Modal>
+
       </div>
     </div>
   );

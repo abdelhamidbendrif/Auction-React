@@ -11,6 +11,8 @@ import SearchResults from './components/SearchResults';
 import ProductCard from './components/ProductCard';
 import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
+import WishList from './components/WishList';
+
 function App() {
   
   return (
@@ -30,6 +32,7 @@ function App() {
           <Route path='/search-results' element={<SearchResults />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/EditProfile/:id' element={<EditProfile />} />
+          <Route path='/wishlist' element={<WishList />} />
         </Routes>
       </BrowserRouter>
       

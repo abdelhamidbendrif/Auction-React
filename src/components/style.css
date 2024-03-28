@@ -15,7 +15,6 @@
 }
 
 
-
 /* head */
 .custom-head {
   width: 100% !important;
@@ -23,7 +22,7 @@
   display: flex;
   align-items: center;
 }
- 
+
 .custom-brand {
   color: white !important;
   /*font-weight: bold !important;*/
@@ -137,7 +136,7 @@
   .custom-sideimg {
     width: 80% !important;
   }
-  
+
   .custom-cont {
     width: 100% !important;
     display: flex;
@@ -157,7 +156,7 @@
   .input {
     width: calc(100% - 20px) !important;
   }
-  
+
   .bar {
     width: calc(100% - 20px) !important;
   }
@@ -165,7 +164,7 @@
   .highlight {
     width: calc(100% - 20px) !important; 
   }
-  
+
 }
 
 /* buttons */
@@ -238,7 +237,7 @@
 .group {
   position: relative;
  }
- 
+
  .input {
   font-size: 16px;
   padding: 10px 10px 10px 5px;
@@ -248,11 +247,11 @@
   border-bottom: 1px solid #515151;
   background: transparent;
  }
- 
+
  .input:focus {
   outline: none;
  }
- 
+
  label {
   color: #999;
   font-size: 18px;
@@ -265,19 +264,19 @@
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
  }
- 
+
  .input:focus ~ label, .input:valid ~ label {
   top: -20px;
   font-size: 14px;
   color: rgb(17, 17, 17);
  }
- 
+
  .bar {
   position: relative;
   display: block;
   width: 600px;
  }
- 
+
  .bar:before, .bar:after {
   content: '';
   height: 2px;
@@ -289,19 +288,19 @@
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
  }
- 
+
  .bar:before {
   left: 50%;
  }
- 
+
  .bar:after {
   right: 50%;
  }
- 
+
  .input:focus ~ .bar:before, .input:focus ~ .bar:after {
   width: 50%;
  }
- 
+
  .highlight {
   position: absolute;
   height: 60%;
@@ -311,16 +310,16 @@
   pointer-events: none;
   opacity: 0.5;
  }
- 
+
  .input:focus ~ .highlight {
   animation: inputHighlighter 0.3s ease;
  }
- 
+
  @keyframes inputHighlighter {
   from {
    background: rgb(17, 17, 17);
   }
- 
+
   to {
    width: 0;
    background: transparent;

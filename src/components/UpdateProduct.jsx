@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 import axios from "axios";
 import Navbar from './Navbar';
 import './style.css';
@@ -14,6 +14,7 @@ function UpdateProduct() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [file, setFile] = useState('');
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +29,6 @@ function UpdateProduct() {
         setDescription(result.description);
         setPrice(result.price);
         setFile(result.file);
-
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
@@ -49,11 +49,15 @@ function UpdateProduct() {
 
     if (response.status === 200) {
       console.log(response.data.message);
-      navigate('/MyProducts');
+      setShowConfirmationModal(true);
     } else {
       console.log('Unexpected status:', response.status);
     }
+  }
 
+  function handleCloseConfirmationModal() {
+    setShowConfirmationModal(false);
+    navigate('/MyProducts');
   }
 
   return (
@@ -67,11 +71,22 @@ function UpdateProduct() {
             <input type="text" onChange={(e) => setName(e.target.value)} defaultValue={data.name} placeholder="Name" className="form-control mb-2 " /> <br />
             <input type="number" onChange={(e) => setPrice(e.target.value)} defaultValue={data.price} placeholder="Price" className="form-control mb-3 " /> <br />
             <textarea onChange={(e) => setDescription(e.target.value)} defaultValue={data.description} placeholder="Description" className="form-control mb-3"  rows="4" /><br />
-            <img style={{  height: 100 }} src={"http://localhost:8000/" + data.file_path} /> <br />
+            <img style={{  height: 100 }} src={"http://localhost:8000/" + data.file_path} alt={data.name} /> <br />
             <input type="file" onChange={(e) => setFile(e.target.files[0])} defaultValue={data.file_path} className="mb-3 form-control custom-placeholder" /> <br />
 
             <Button onClick={update} className="custom-btn"> Done </Button><br /> <br /> <br />  <br /> <br />
           </Form>
+
+          {/* Confirmation Message Modal */}
+          <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Product updated successfully!</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseConfirmationModal}>Close</Button>
+            </Modal.Footer>
+          </Modal>
 
         </div>
       </div>
